@@ -16,7 +16,6 @@ import static gregtech.api.enums.Mods.StevesCarts2;
 import static gregtech.api.enums.Mods.Thaumcraft;
 import static gregtech.api.recipe.RecipeMaps.alloySmelterRecipes;
 import static gregtech.api.recipe.RecipeMaps.assemblerRecipes;
-import static gregtech.api.recipe.RecipeMaps.blastFurnaceRecipes;
 import static gregtech.api.recipe.RecipeMaps.cutterRecipes;
 import static gregtech.api.recipe.RecipeMaps.hammerRecipes;
 import static gregtech.api.recipe.RecipeMaps.laserEngraverRecipes;
@@ -2048,6 +2047,22 @@ public class ScriptRailcraft implements IScriptLoader {
                 .eut(TierEU.RECIPE_LV).addTo(alloySmelterRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
+                        getModItem(Railcraft.ID, "firestone.cut", 1, 0, missing),
+                        getModItem(Minecraft.ID, "redstone_block", 2, 0, missing),
+                        GTUtility.getIntegratedCircuit(1))
+                .itemOutputs(getModItem(Railcraft.ID, "firestone.refined", 1, 5000, missing))
+                .fluidInputs(FluidRegistry.getFluidStack("lava", 576)).duration(10 * SECONDS).eut(TierEU.RECIPE_HV)
+                .addTo(assemblerRecipes);
+        GTValues.RA.stdBuilder()
+                .itemInputs(
+                        getModItem(Railcraft.ID, "firestone.cracked", 1, wildcard, missing),
+                        getModItem(Minecraft.ID, "redstone_block", 2, 0, missing),
+                        GTUtility.getIntegratedCircuit(1))
+                .itemOutputs(getModItem(Railcraft.ID, "firestone.refined", 1, 5000, missing))
+                .fluidInputs(FluidRegistry.getFluidStack("lava", 576)).duration(10 * SECONDS).eut(TierEU.RECIPE_HV)
+                .addTo(assemblerRecipes);
+        GTValues.RA.stdBuilder()
+                .itemInputs(
                         getModItem(Minecraft.ID, "minecart", 1, 0, missing),
                         getModItem(Minecraft.ID, "crafting_table", 1, 0, missing),
                         GTUtility.getIntegratedCircuit(1))
@@ -2116,24 +2131,6 @@ public class ScriptRailcraft implements IScriptLoader {
                         GTUtility.getIntegratedCircuit(1))
                 .itemOutputs(getModItem(Railcraft.ID, "tool.surveyor", 1, 0, missing)).duration(15 * SECONDS)
                 .eut(TierEU.RECIPE_LV).addTo(assemblerRecipes);
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        getModItem(Railcraft.ID, "firestone.cut", 1, 0, missing),
-                        getModItem(Minecraft.ID, "redstone_block", 16, 0, missing),
-                        GTUtility.getIntegratedCircuit(1))
-                .itemOutputs(getModItem(Railcraft.ID, "firestone.refined", 1, 5000, missing))
-                .fluidInputs(FluidRegistry.getFluidStack("lava", 16000)).duration(10 * MINUTES).eut(TierEU.RECIPE_MV)
-                .specialValue(1200).addTo(blastFurnaceRecipes);
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        getModItem(Railcraft.ID, "firestone.cracked", 1, 0, missing),
-                        getModItem(Minecraft.ID, "redstone_block", 16, 0, missing),
-                        GTUtility.getIntegratedCircuit(1))
-                .itemOutputs(getModItem(Railcraft.ID, "firestone.refined", 1, 5000, missing))
-                .fluidInputs(FluidRegistry.getFluidStack("lava", 8000)).duration(5 * MINUTES).eut(TierEU.RECIPE_MV)
-                .specialValue(1200).addTo(blastFurnaceRecipes);
-
         GTValues.RA.stdBuilder().itemInputs(getModItem(Railcraft.ID, "cube", 1, 8, missing))
                 .itemOutputs(getModItem(Railcraft.ID, "slab", 4, 38, missing))
                 .fluidInputs(FluidRegistry.getFluidStack("water", 4)).duration(10 * SECONDS).eut(TierEU.RECIPE_LV)
@@ -2161,15 +2158,8 @@ public class ScriptRailcraft implements IScriptLoader {
                 .itemInputs(
                         GTUtility.copyAmount(0L, GTOreDictUnificator.get(OrePrefixes.lens, Materials.Diamond, 1L)),
                         getModItem(Railcraft.ID, "firestone.raw", 1, 0, missing))
-                .itemOutputs(getModItem(Railcraft.ID, "firestone.cut", 1, 0, missing)).duration(8 * MINUTES)
-                .eut(TierEU.RECIPE_LV).addTo(laserEngraverRecipes);
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        GTUtility.copyAmount(0L, GTOreDictUnificator.get(OrePrefixes.lens, Materials.Firestone, 1L)),
-                        getModItem(Railcraft.ID, "firestone.raw", 1, 0, missing))
                 .itemOutputs(getModItem(Railcraft.ID, "firestone.cut", 1, 0, missing)).duration(2 * MINUTES)
-                .eut(TierEU.RECIPE_LV).addTo(laserEngraverRecipes);
+                .eut(TierEU.RECIPE_HV).addTo(laserEngraverRecipes);
 
         TCHelper.removeArcaneRecipe(getModItem(Railcraft.ID, "tool.crowbar.magic", 1, 0, missing));
         TCHelper.removeArcaneRecipe(getModItem(Railcraft.ID, "tool.crowbar.void", 1, 0, missing));

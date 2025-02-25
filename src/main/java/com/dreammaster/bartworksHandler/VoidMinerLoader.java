@@ -23,8 +23,8 @@ import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.interfaces.ISubTagContainer;
 import gtPlusPlus.core.material.Material;
-import toxiceverglades.gen.WorldGenEvergladesOreLayer;
-import toxiceverglades.gen.WorldGenEvergladesOres;
+import gtPlusPlus.everglades.gen.gt.WorldGen_GT_Ore_Layer;
+import gtPlusPlus.everglades.gen.gt.WorldGen_Ores;
 
 public class VoidMinerLoader {
 
@@ -71,7 +71,7 @@ public class VoidMinerLoader {
 
         // Map of GT++ material name to GT++ Material.
         Map<String, Material> GTPPMaterials = new HashMap<>();
-        for (WorldGenEvergladesOreLayer t : WorldGenEvergladesOres.validOreveins.values()) {
+        for (WorldGen_GT_Ore_Layer t : WorldGen_Ores.validOreveins.values()) {
             GTPPMaterials.put(t.mPrimary.getLocalizedName(), t.mPrimary);
             GTPPMaterials.put(t.mSecondary.getLocalizedName(), t.mSecondary);
             GTPPMaterials.put(t.mBetween.getLocalizedName(), t.mBetween);

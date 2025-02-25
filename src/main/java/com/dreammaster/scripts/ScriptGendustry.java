@@ -16,7 +16,6 @@ import java.util.List;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import com.dreammaster.gthandler.CustomItemList;
-import com.dreammaster.item.NHItemList;
 
 import fox.spiteful.avaritia.crafting.ExtremeCraftingManager;
 import gregtech.api.enums.GTValues;
@@ -301,13 +300,13 @@ public class ScriptGendustry implements IScriptLoader {
                 .addTo(assemblerRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
-                        NHItemList.GeneticCircuit.getIS(1),
+                        com.dreammaster.item.ItemList.GeneticCircuit.getIS(1),
                         GTOreDictUnificator.get(OrePrefixes.circuit, Materials.IV, 1))
                 .itemOutputs(getModItem(Gendustry.ID, "GeneticsProcessor", 1, 0, missing)).duration(20 * SECONDS)
                 .eut(1920).addTo(assemblerRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
-                        NHItemList.EnvironmentalCircuit.getIS(1),
+                        com.dreammaster.item.ItemList.EnvironmentalCircuit.getIS(1),
                         GTOreDictUnificator.get(OrePrefixes.circuit, Materials.IV, 1))
                 .itemOutputs(getModItem(Gendustry.ID, "EnvProcessor", 1, 0, missing))
                 .fluidInputs(FluidRegistry.getFluidStack("liquiddna", 500)).duration(20 * SECONDS).eut(1920)

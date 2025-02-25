@@ -3,15 +3,12 @@ package com.dreammaster.scripts;
 import static gregtech.api.enums.Mods.AppliedEnergistics2;
 import static gregtech.api.enums.Mods.Avaritia;
 import static gregtech.api.enums.Mods.BartWorks;
-import static gregtech.api.enums.Mods.Computronics;
 import static gregtech.api.enums.Mods.DraconicEvolution;
-import static gregtech.api.enums.Mods.EnderIO;
 import static gregtech.api.enums.Mods.EternalSingularity;
 import static gregtech.api.enums.Mods.ExtraUtilities;
 import static gregtech.api.enums.Mods.IndustrialCraft2;
 import static gregtech.api.enums.Mods.IronChests;
 import static gregtech.api.enums.Mods.Minecraft;
-import static gregtech.api.enums.Mods.OpenComputers;
 import static gregtech.api.enums.Mods.Thaumcraft;
 import static gregtech.api.enums.Mods.TinkerConstruct;
 import static gregtech.api.recipe.RecipeMaps.alloySmelterRecipes;
@@ -36,7 +33,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.dreammaster.avaritia.AvaritiaHelper;
 import com.dreammaster.gthandler.CustomItemList;
-import com.dreammaster.item.NHItemList;
 
 import fox.spiteful.avaritia.crafting.ExtremeCraftingManager;
 import gregtech.api.enums.GTValues;
@@ -98,9 +94,8 @@ public class ScriptAppliedEnergistics2 implements IScriptLoader {
         final ItemStack storageBus = getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 1, 220, missing);
 
         // preconfigurated priorities for storage buses
-
+        ItemStack preconfiguredStorageBus = storageBus.copy();
         for (int i = 1; i < 25; i++) {
-            ItemStack preconfiguredStorageBus = storageBus.copy();
             NBTTagCompound tag = new NBTTagCompound();
             tag.setInteger("priority", i);
             preconfiguredStorageBus.setTagCompound(tag);
@@ -110,64 +105,6 @@ public class ScriptAppliedEnergistics2 implements IScriptLoader {
 
             addShapelessRecipe(preconfiguredStorageBus, storageBus, GTUtility.getIntegratedCircuit(i));
         }
-        // Preconfigured p2ps
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        getModItem(IndustrialCraft2.ID, "itemFluidCell", 1),
-                        getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 460, missing))
-                .itemOutputs(getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 463, missing))
-                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).addTo(circuitAssemblerRecipes);
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        getModItem(OpenComputers.ID, "cable", 1),
-                        getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 460, missing))
-                .itemOutputs(getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 468, missing))
-                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).addTo(circuitAssemblerRecipes);
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        getModItem(EnderIO.ID, "itemPowerConduit", 1),
-                        getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 460, missing))
-                .itemOutputs(getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 466, missing))
-                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).addTo(circuitAssemblerRecipes);
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        GTOreDictUnificator.get(OrePrefixes.cableGt01, Materials.RedstoneAlloy, 1L),
-                        getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 460, missing))
-                .itemOutputs(getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 470, missing))
-                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).addTo(circuitAssemblerRecipes);
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        GTOreDictUnificator.get(OrePrefixes.plate, Materials.Redstone, 1L),
-                        getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 460, missing))
-                .itemOutputs(getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 461, missing))
-                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).addTo(circuitAssemblerRecipes);
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        GTOreDictUnificator.get(OrePrefixes.plate, Materials.Glowstone, 1L),
-                        getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 460, missing))
-                .itemOutputs(getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 467, missing))
-                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).addTo(circuitAssemblerRecipes);
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        getModItem(Computronics.ID, "computronics.ironNoteBlock", 1),
-                        getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 460, missing))
-                .itemOutputs(getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 472, missing))
-                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).addTo(circuitAssemblerRecipes);
-
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        getModItem(ExtraUtilities.ID, "chestMini", 1),
-                        getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 460, missing))
-                .itemOutputs(getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 16, 462, missing))
-                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).addTo(circuitAssemblerRecipes);
-
         // Hyper-Acceleration Card
         addShapelessRecipe(
                 SuperSpeedCard,
@@ -1783,7 +1720,7 @@ public class ScriptAppliedEnergistics2 implements IScriptLoader {
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 9, missing),
                 "plateGlowstone",
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 9, missing),
-                NHItemList.EngineeringProcessorSpatialPulsatingCore.getIS(1),
+                com.dreammaster.item.ItemList.EngineeringProcessorSpatialPulsatingCore.getIS(1),
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 9, missing),
                 "plateGlowstone",
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 9, missing),
@@ -1794,7 +1731,7 @@ public class ScriptAppliedEnergistics2 implements IScriptLoader {
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 32, missing),
                 "plateEnderPearl",
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 32, missing),
-                NHItemList.EngineeringProcessorSpatialPulsatingCore.getIS(1),
+                com.dreammaster.item.ItemList.EngineeringProcessorSpatialPulsatingCore.getIS(1),
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 32, missing),
                 "plateEnderPearl",
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 32, missing),
@@ -1805,7 +1742,7 @@ public class ScriptAppliedEnergistics2 implements IScriptLoader {
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 33, missing),
                 "plateEnderEye",
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 33, missing),
-                NHItemList.EngineeringProcessorSpatialPulsatingCore.getIS(1),
+                com.dreammaster.item.ItemList.EngineeringProcessorSpatialPulsatingCore.getIS(1),
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 33, missing),
                 "plateEnderEye",
                 getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 33, missing),
@@ -1854,40 +1791,6 @@ public class ScriptAppliedEnergistics2 implements IScriptLoader {
                 "plateNetherQuartz",
                 "gemNetherQuartz",
                 "craftingToolFile");
-        // Creative Energy Anchor
-        addShapedRecipe(
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 1, 690, missing),
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 1, 120, missing), // Cable Anchor
-                getModItem(AppliedEnergistics2.ID, "tile.BlockCreativeEnergyCell", 1, 0, missing),
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiPart", 1, 140, missing)); // Quartz Fiber
-        // Fake Crafting Card
-        addShapedRecipe(
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 66, missing),
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 28, missing), // Advanced Card
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 24, missing), // Engineering Proc.
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 22, missing), // Logic Proc.
-                ItemList.Cover_Crafting.get(1));
-        // Superliminal Acceleration Card
-        addShapedRecipe(
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 67, missing),
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 28, missing), // Advanced Card
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 24, missing), // Engineering Proc.
-                GTOreDictUnificator.get(OrePrefixes.gem, Materials.Dilithium, 1),
-                ItemList.AcceleratorUV.get(1));
-        // Overflow Void Card
-        addShapedRecipe(
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 68, missing),
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 25, missing), // Basic Card
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 23, missing), // Calculation Proc.
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 23, missing), // Calculation Proc.
-                getModItem(AppliedEnergistics2.ID, "item.ItemVoidStorageCell", 1, 0, missing));
-        // Equal Distribution Card
-        addShapedRecipe(
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 69, missing),
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 28, missing), // Advanced Card
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 24, missing), // Engineering Proc.
-                getModItem(AppliedEnergistics2.ID, "item.ItemMultiMaterial", 1, 22, missing), // Logic Proc.
-                ItemList.Automation_ItemDistributor_EV.get(1));
 
         GTValues.RA.stdBuilder()
                 .itemInputs(
@@ -2168,13 +2071,14 @@ public class ScriptAppliedEnergistics2 implements IScriptLoader {
                         getModItem(Minecraft.ID, "glass", 4, 0, missing),
                         GTOreDictUnificator.get(OrePrefixes.dust, Materials.CertusQuartz, 4))
                 .itemOutputs(getModItem(AppliedEnergistics2.ID, "tile.BlockQuartzGlass", 4, 0, missing))
-                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).specialValue(1000).addTo(blastFurnaceRecipes);
+                .duration(10 * SECONDS).eut(TierEU.RECIPE_MV).specialValue(1000).noOptimize()
+                .addTo(blastFurnaceRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
                         getModItem(Minecraft.ID, "glass", 4, 0, missing),
                         GTOreDictUnificator.get(OrePrefixes.dust, Materials.CertusQuartz, 4))
                 .itemOutputs(getModItem(AppliedEnergistics2.ID, "tile.BlockQuartzGlass", 4, 0, missing))
-                .duration(20 * SECONDS).eut(16).addTo(alloySmelterRecipes);
+                .duration(20 * SECONDS).eut(16).noOptimize().addTo(alloySmelterRecipes);
         GTValues.RA.stdBuilder().itemInputs(getModItem(IndustrialCraft2.ID, "blockITNT", 1, 0, missing))
                 .itemOutputs(
                         getModItem(AppliedEnergistics2.ID, "tile.BlockTinyTNT", 1, 0, missing),

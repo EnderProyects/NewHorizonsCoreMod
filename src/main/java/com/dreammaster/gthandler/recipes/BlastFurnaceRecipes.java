@@ -14,7 +14,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 import com.dreammaster.gthandler.CustomItemList;
-import com.dreammaster.item.NHItemList;
 
 import gregtech.api.enums.GTValues;
 import gregtech.api.enums.ItemList;
@@ -878,11 +877,10 @@ public class BlastFurnaceRecipes implements Runnable {
 
         GTValues.RA.stdBuilder()
                 .itemInputs(
-                        GTOreDictUnificator.get(OrePrefixes.dust, Materials.Aluminiumoxide, 10L),
-                        GTOreDictUnificator.get(OrePrefixes.dust, Materials.Cryolite, 5L))
-                .itemOutputs(GTOreDictUnificator.get(OrePrefixes.ingot, Materials.Aluminium, 4L))
-                .duration(1 * MINUTES + 20 * SECONDS).eut(TierEU.RECIPE_MV).metadata(COIL_HEAT, 963)
-                .addTo(blastFurnaceRecipes);
+                        GTOreDictUnificator.get(OrePrefixes.dust, Materials.Aluminiumoxide, 30L),
+                        GTOreDictUnificator.get(OrePrefixes.dust, Materials.Cryolite, 15L))
+                .itemOutputs(GTOreDictUnificator.get(OrePrefixes.ingot, Materials.Aluminium, 12L)).duration(4 * MINUTES)
+                .eut(TierEU.RECIPE_MV).metadata(COIL_HEAT, 963).addTo(blastFurnaceRecipes);
 
         GTValues.RA.stdBuilder()
                 .itemInputs(
@@ -1193,7 +1191,7 @@ public class BlastFurnaceRecipes implements Runnable {
                 .itemInputs(
                         GTOreDictUnificator.get(OrePrefixes.dust, Materials.Pentacadmiummagnesiumhexaoxid, 1L),
                         GTUtility.getIntegratedCircuit(1))
-                .itemOutputs(GTOreDictUnificator.get(OrePrefixes.ingot, Materials.Pentacadmiummagnesiumhexaoxid, 1L))
+                .itemOutputs(GTOreDictUnificator.get(OrePrefixes.ingotHot, Materials.Pentacadmiummagnesiumhexaoxid, 1L))
                 .duration(2 * MINUTES).eut(TierEU.RECIPE_HV).metadata(COIL_HEAT, 2500).addTo(blastFurnaceRecipes);
 
         GTValues.RA.stdBuilder()
@@ -1425,9 +1423,16 @@ public class BlastFurnaceRecipes implements Runnable {
         GTValues.RA.stdBuilder()
                 .itemInputs(
                         GTOreDictUnificator.get(OrePrefixes.dust, Materials.CosmicNeutronium, 1L),
+                        GTUtility.getIntegratedCircuit(1))
+                .itemOutputs(GTOreDictUnificator.get(OrePrefixes.ingotHot, Materials.CosmicNeutronium, 1L))
+                .duration(10 * MINUTES).eut(TierEU.RECIPE_ZPM).metadata(COIL_HEAT, 9900).addTo(blastFurnaceRecipes);
+
+        GTValues.RA.stdBuilder()
+                .itemInputs(
+                        GTOreDictUnificator.get(OrePrefixes.dust, Materials.CosmicNeutronium, 1L),
                         GTUtility.getIntegratedCircuit(11))
                 .itemOutputs(GTOreDictUnificator.get(OrePrefixes.ingotHot, Materials.CosmicNeutronium, 1L))
-                .fluidInputs(Materials.Radon.getGas(1000L)).duration(6 * MINUTES + 40 * SECONDS).eut(TierEU.RECIPE_ZPM)
+                .fluidInputs(Materials.Radon.getGas(1000L)).duration(8 * MINUTES + 20 * SECONDS).eut(TierEU.RECIPE_ZPM)
                 .metadata(COIL_HEAT, 9900).addTo(blastFurnaceRecipes);
 
         GTValues.RA.stdBuilder()
@@ -1494,8 +1499,8 @@ public class BlastFurnaceRecipes implements Runnable {
 
         GTValues.RA.stdBuilder().itemInputs(CustomItemList.RawNeutronium.get(1L), GTUtility.getIntegratedCircuit(11))
                 .itemOutputs(GTOreDictUnificator.get(OrePrefixes.ingotHot, Materials.Neutronium, 1L))
-                .fluidInputs(Materials.Radon.getGas(1000L)).duration(4 * MINUTES + 28 * SECONDS + 8 * TICKS)
-                .eut(TierEU.RECIPE_UV).metadata(COIL_HEAT, 9000).addTo(blastFurnaceRecipes);
+                .fluidInputs(Materials.Radon.getGas(1000L)).duration(5 * MINUTES + 36 * SECONDS).eut(TierEU.RECIPE_UV)
+                .metadata(COIL_HEAT, 9000).addTo(blastFurnaceRecipes);
 
         GTValues.RA.stdBuilder().itemInputs(Materials.Sapphire.getDust(3), GTUtility.getIntegratedCircuit(1))
                 .itemOutputs(Materials.Aluminiumoxide.getDust(1)).duration(60 * SECONDS).eut(TierEU.RECIPE_MV)
@@ -1606,12 +1611,14 @@ public class BlastFurnaceRecipes implements Runnable {
 
         if (SGCraft.isModLoaded()) {
 
-            GTValues.RA.stdBuilder().itemInputs(NHItemList.StargateCrystalDust.getIS().splitStack(64))
+            GTValues.RA.stdBuilder()
+                    .itemInputs(com.dreammaster.item.ItemList.StargateCrystalDust.getIS().splitStack(64))
                     .fluidInputs(MaterialsUEVplus.StargateCrystalSlurry.getFluid(128_000_000L))
                     .itemOutputs(GTModHandler.getModItem(SGCraft.ID, "sgCoreCrystal", 1L)).duration(7 * 24 * HOURS * 2)
                     .eut(TierEU.RECIPE_MAX).metadata(COIL_HEAT, 100_000).addTo(blastFurnaceRecipes); // ^ 2 weeks
 
-            GTValues.RA.stdBuilder().itemInputs(NHItemList.StargateCrystalDust.getIS().splitStack(64))
+            GTValues.RA.stdBuilder()
+                    .itemInputs(com.dreammaster.item.ItemList.StargateCrystalDust.getIS().splitStack(64))
                     .fluidInputs(MaterialsUEVplus.MagnetohydrodynamicallyConstrainedStarMatter.getMolten(128_000_000L))
                     .itemOutputs(GTModHandler.getModItem(SGCraft.ID, "sgControllerCrystal", 1L))
                     .duration(7 * 24 * HOURS * 2).eut(TierEU.RECIPE_MAX).metadata(COIL_HEAT, 100_000)

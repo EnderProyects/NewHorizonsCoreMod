@@ -9,7 +9,7 @@ import com.dreammaster.main.MainRegistry;
 import eu.usrv.yamcore.items.ModItemManager;
 import eu.usrv.yamcore.items.ModSimpleBaseItem;
 
-public enum NHItemList {
+public enum ItemList {
 
     MicaBasedPulp(new ModSimpleBaseItem("MicaBasedPulp", ModTabList.ModGenericTab)),
     MicaBasedSheet(new ModSimpleBaseItem("MicaBasedSheet", ModTabList.ModGenericTab)),
@@ -554,9 +554,6 @@ public enum NHItemList {
     CircuitMAX(new ModSimpleBaseItem("CircuitMAX", ModTabList.ModCircuitsTab)),
     RadoxPolymerLens(new ModSimpleBaseItem("RadoxPolymerLens", ModTabList.ModSpaceTab)),
     ChromaticLens(new ModSimpleBaseItem("ChromaticLens", ModTabList.ModSpaceTab)),
-    ChromaticGem(new ModSimpleBaseItem("ChromaticGem", ModTabList.ModSpaceTab)),
-    ChromaticGemFlawless(new ModSimpleBaseItem("ChromaticGemFlawless", ModTabList.ModSpaceTab)),
-    ChromaticGemExquisite(new ModSimpleBaseItem("ChromaticGemExquisite", ModTabList.ModSpaceTab)),
     NanoCircuitOrigin(new ModSimpleBaseItem("OriginNanoCircuit", ModTabList.ModSpaceTab)),
     GatePlateOrigin(new ModSimpleBaseItem("OriginGatePlate", ModTabList.ModSpaceTab)),
     ChevronOrigin(new ModSimpleBaseItem("OriginChevron", ModTabList.ModSpaceTab)),
@@ -583,7 +580,7 @@ public enum NHItemList {
     // ################################################################################
     public ModSimpleBaseItem Item;
 
-    NHItemList(ModSimpleBaseItem pItem) {
+    ItemList(ModSimpleBaseItem pItem) {
         Item = pItem;
         if (Item != null) {
             Item.setModIDName(Refstrings.MODID);
@@ -592,7 +589,7 @@ public enum NHItemList {
 
     public static boolean AddToItemManager(ModItemManager pItemManager) {
         boolean tResult = true;
-        for (NHItemList il : NHItemList.values()) {
+        for (ItemList il : ItemList.values()) {
             if (il.Item != null) {
                 if (!pItemManager.AddItemToManagedRegistry(il.Item)) {
                     MainRegistry.Logger.error(String.format("Item [%s] failed to register", il.toString()));

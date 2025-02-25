@@ -1,7 +1,6 @@
 package com.dreammaster.scripts;
 
 import static gregtech.api.enums.Mods.AdvancedSolarPanel;
-import static gregtech.api.enums.Mods.GTNHIntergalactic;
 import static gregtech.api.enums.Mods.GTPlusPlus;
 import static gregtech.api.enums.Mods.GalacticraftAmunRa;
 import static gregtech.api.enums.Mods.GalacticraftCore;
@@ -22,7 +21,6 @@ import static gregtech.api.util.GTRecipeBuilder.MINUTES;
 import static gregtech.api.util.GTRecipeBuilder.QUARTER_INGOT;
 import static gregtech.api.util.GTRecipeBuilder.SECONDS;
 import static gregtech.api.util.GTRecipeBuilder.TICKS;
-import static gregtech.api.util.GTRecipeConstants.SCANNING;
 import static gregtech.api.util.GTUtility.getIntegratedCircuit;
 
 import java.util.Arrays;
@@ -39,9 +37,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import com.dreammaster.item.NHItemList;
-import com.gtnewhorizons.gtnhintergalactic.item.IGItems;
-
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.registry.GameRegistry;
 import de.katzenpapst.amunra.block.ARBlocks;
@@ -55,7 +50,6 @@ import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.TierEU;
 import gregtech.api.util.GTRecipeConstants;
 import gregtech.api.util.GTUtility;
-import gregtech.api.util.recipe.Scanning;
 import micdoodle8.mods.galacticraft.api.recipe.SpaceStationRecipe;
 import tectech.recipe.TTRecipeAdder;
 
@@ -74,7 +68,6 @@ public class ScriptAmunRa implements IScriptLoader {
                 GalaxySpace.ID,
                 GoodGenerator.ID,
                 GraviSuite.ID,
-                GTNHIntergalactic.ID,
                 GTPlusPlus.ID,
                 IronChests.ID,
                 RandomThings.ID,
@@ -95,11 +88,11 @@ public class ScriptAmunRa implements IScriptLoader {
         final Block machines4 = GameRegistry.findBlock(GalacticraftAmunRa.ID, "tile.machines4");
         final Block msBoosters1 = GameRegistry.findBlock(GalacticraftAmunRa.ID, "tile.msBoosters1");
         final Block airLockFrame = GameRegistry.findBlock(GalacticraftCore.ID, "tile.airLockFrame");
-        final Block machineFrames = GameRegistry.findBlock(GTNHIntergalactic.ID, "gassiphoncasing");
+        final Block machineFrames = GameRegistry.findBlock(GalaxySpace.ID, "machineframes");
 
         final Item baseItem = GameRegistry.findItem(GalacticraftAmunRa.ID, "item.baseItem");
         final Item basicItem = GameRegistry.findItem(GalacticraftCore.ID, "item.basicItem");
-        final Item dysonSwarmParts = IGItems.DysonSwarmItems;
+        final Item dysonSwarmParts = GameRegistry.findItem(GalaxySpace.ID, "item.DysonSwarmParts");
         final Item advancedRadiationProtectionPlate = GameRegistry
                 .findItem(GoodGenerator.ID, "advancedRadiationProtectionPlate");
         final Item simpleItem = GameRegistry.findItem(GraviSuite.ID, "itemSimpleItem");
@@ -168,7 +161,7 @@ public class ScriptAmunRa implements IScriptLoader {
                 'P',
                 "plateCosmicNeutronium",
                 'D',
-                NHItemList.Display.getIS(),
+                com.dreammaster.item.ItemList.Display.getIS(),
                 'C',
                 "circuitInfinite",
                 'F',
@@ -189,7 +182,7 @@ public class ScriptAmunRa implements IScriptLoader {
                 'W',
                 "springTungstenSteel",
                 'D',
-                NHItemList.Display.getIS(),
+                com.dreammaster.item.ItemList.Display.getIS(),
                 'T',
                 "craftingToolScrewdriver",
                 'P',
@@ -236,13 +229,13 @@ public class ScriptAmunRa implements IScriptLoader {
                 'H',
                 "craftingToolHardHammer",
                 '8',
-                NHItemList.HeavyDutyPlateTier8.getIS(),
+                com.dreammaster.item.ItemList.HeavyDutyPlateTier8.getIS(),
                 'F',
                 "craftingToolFile",
                 'L',
                 new ItemStack(baseItem, 1, 15),
                 '4',
-                NHItemList.HeavyDutyRocketFinsTier4.getIS());
+                com.dreammaster.item.ItemList.HeavyDutyRocketFinsTier4.getIS());
         addShapedOredictRecipe(
                 new ItemStack(baseItem, 1, 16),
                 "DCH",
@@ -251,7 +244,7 @@ public class ScriptAmunRa implements IScriptLoader {
                 'D',
                 "craftingToolScrewdriver",
                 'C',
-                NHItemList.HeavyDutyNoseConeTier4.getIS(),
+                com.dreammaster.item.ItemList.HeavyDutyNoseConeTier4.getIS(),
                 'H',
                 "craftingToolHardHammer",
                 'S',
@@ -314,15 +307,15 @@ public class ScriptAmunRa implements IScriptLoader {
                 .addTo(assemblerRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
-                        NHItemList.HeavyDutyPlateTier8.getIS(2),
+                        com.dreammaster.item.ItemList.HeavyDutyPlateTier8.getIS(2),
                         new ItemStack(baseItem, 4, 15),
-                        NHItemList.HeavyDutyRocketFinsTier4.getIS(),
+                        com.dreammaster.item.ItemList.HeavyDutyRocketFinsTier4.getIS(),
                         getIntegratedCircuit(5))
                 .itemOutputs(new ItemStack(baseItem, 1, 14)).duration(2 * SECONDS + 10 * TICKS).eut(TierEU.RECIPE_IV)
                 .addTo(assemblerRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
-                        NHItemList.HeavyDutyNoseConeTier4.getIS(),
+                        com.dreammaster.item.ItemList.HeavyDutyNoseConeTier4.getIS(),
                         new ItemStack(baseItem, 4, 15),
                         getIntegratedCircuit(4))
                 .fluidInputs(Materials.Neutronium.getMolten(QUARTER_INGOT)).itemOutputs(new ItemStack(baseItem, 1, 16))
@@ -360,7 +353,7 @@ public class ScriptAmunRa implements IScriptLoader {
          * Implosion Compressor *
          ************************/
 
-        GTValues.RA.stdBuilder().itemInputs(NHItemList.HeavyDutyAlloyIngotT9.getIS())
+        GTValues.RA.stdBuilder().itemInputs(com.dreammaster.item.ItemList.HeavyDutyAlloyIngotT9.getIS())
                 .itemOutputs(new ItemStack(baseItem, 1, 15), Materials.Neutronium.getDustTiny(8))
                 .metadata(GTRecipeConstants.ADDITIVE_AMOUNT, 64).duration(1 * SECONDS).eut(TierEU.RECIPE_LV)
                 .addTo(implosionRecipes);
@@ -384,7 +377,7 @@ public class ScriptAmunRa implements IScriptLoader {
                 (int) TierEU.RECIPE_UHV,
                 8,
                 new Object[] { ItemList.Hull_MAX.get(1), new ItemStack(baseItem, 32, 28),
-                        NHItemList.IrradiantReinforcedNeutroniumPlate.getIS(64),
+                        com.dreammaster.item.ItemList.IrradiantReinforcedNeutroniumPlate.getIS(64),
                         new ItemStack(GameRegistry.findItem(GalaxySpace.ID, "item.RocketControlComputer"), 4, 8),
                         new Object[] { OrePrefixes.circuit.get(Materials.UHV), 16 }, ItemList.Sensor_UHV.get(8),
                         ItemList.Emitter_UHV.get(8) },
@@ -395,14 +388,14 @@ public class ScriptAmunRa implements IScriptLoader {
                 15 * MINUTES,
                 (int) TierEU.RECIPE_UHV);
         TTRecipeAdder.addResearchableAssemblylineRecipe(
-                NHItemList.HeavyDutyRocketEngineTier4.getIS(),
+                com.dreammaster.item.ItemList.HeavyDutyRocketEngineTier4.getIS(),
                 64000,
                 64,
                 (int) TierEU.RECIPE_UHV,
                 8,
                 new Object[] { new ItemStack(dysonSwarmParts, 64, 3), new ItemStack(dysonSwarmParts, 64, 3),
                         new ItemStack(dysonSwarmParts, 64, 3), new ItemStack(dysonSwarmParts, 64, 3),
-                        NHItemList.HeavyDutyRocketEngineTier4.getIS(64),
+                        com.dreammaster.item.ItemList.HeavyDutyRocketEngineTier4.getIS(64),
                         new Object[] { OrePrefixes.pipeHuge.get(Materials.Infinity), 8 },
                         ItemList.Electric_Pump_UHV.get(16), new Object[] { OrePrefixes.circuit.get(Materials.UHV), 8 },
                         new ItemStack(baseItem, 4, 27) },
@@ -433,7 +426,7 @@ public class ScriptAmunRa implements IScriptLoader {
                 10 * MINUTES,
                 2500000);
         TTRecipeAdder.addResearchableAssemblylineRecipe(
-                NHItemList.Tier4Booster.getIS(),
+                com.dreammaster.item.ItemList.Tier4Booster.getIS(),
                 64000,
                 64,
                 (int) TierEU.RECIPE_UHV,
@@ -492,19 +485,17 @@ public class ScriptAmunRa implements IScriptLoader {
                 GameRegistry.findItemStack(GalacticraftAmunRa.ID, "item.schematic", 1),
                 15 * MINUTES,
                 (int) TierEU.RECIPE_UHV);
-
-        // Lightweight Alloy Ingot
         GTValues.RA.stdBuilder()
                 .itemInputs(
-                        NHItemList.HeavyDutyPlateTier8.getIS(),
+                        com.dreammaster.item.ItemList.HeavyDutyPlateTier8.getIS(),
                         MaterialsKevlar.Kevlar.getPlates(7),
                         MaterialsKevlar.Kevlar.getPlates(7),
                         new Object[] { OrePrefixes.screw.get(Materials.Neutronium), 12 })
                 .fluidInputs(Materials.RadoxPolymer.getMolten(4 * INGOTS))
-                .itemOutputs(NHItemList.HeavyDutyAlloyIngotT9.getIS())
-                .metadata(GTRecipeConstants.RESEARCH_ITEM, NHItemList.HeavyDutyPlateTier8.getIS())
-                .metadata(SCANNING, new Scanning(2 * MINUTES + 20 * SECONDS, TierEU.RECIPE_UV)).duration(15 * SECONDS)
-                .eut(TierEU.RECIPE_UEV).addTo(GTRecipeConstants.AssemblyLine);
+                .itemOutputs(com.dreammaster.item.ItemList.HeavyDutyAlloyIngotT9.getIS())
+                .metadata(GTRecipeConstants.RESEARCH_ITEM, com.dreammaster.item.ItemList.HeavyDutyPlateTier8.getIS())
+                .metadata(GTRecipeConstants.RESEARCH_TIME, 750 * SECONDS).duration(15 * SECONDS).eut(TierEU.RECIPE_UEV)
+                .addTo(GTRecipeConstants.AssemblyLine);
     }
 
     @Optional.Method(modid = "GalacticraftAmunRa")
@@ -518,7 +509,7 @@ public class ScriptAmunRa implements IScriptLoader {
                         ARBlocks.blockMothershipController.getMetadata()),
                 1);
         recipe.put(new ItemStack(GregTechAPI.sBlockCasings8, 1, 5), 256);
-        recipe.put(new ItemStack(GameRegistry.findItem(GTNHIntergalactic.ID, "item.DysonSwarmParts"), 1, 3), 64);
+        recipe.put(new ItemStack(GameRegistry.findItem(GalaxySpace.ID, "item.DysonSwarmParts"), 1, 3), 64);
         recipe.put(ItemList.Field_Generator_UHV.get(1), 8);
         recipe.put("circuitInfinite", 32);
 

@@ -10,18 +10,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.StatCollector;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.dreammaster.client.util.IconLoader;
 import com.dreammaster.coremod.DreamCoreMod;
 import com.dreammaster.lib.Refstrings;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 @Mixin(Minecraft.class)
-public abstract class MixinMinecraft_ConfirmExit {
+public class MixinMinecraft_ConfirmExit {
 
     @Unique
     private boolean dreamcraft$isCloseRequested;
@@ -29,16 +27,19 @@ public abstract class MixinMinecraft_ConfirmExit {
     @Unique
     private boolean dreamcraft$waitingDialogQuit;
 
-    @Shadow
-    public abstract void shutdown();
-
-    @Inject(method = "shutdown", at = @At(value = "HEAD"), cancellable = true)
-    private void dreamcraft$confirmGameShutdown(CallbackInfo ci) {
-        if (!DreamCoreMod.showConfirmExitWindow || this.dreamcraft$isCloseRequested) {
-            return;
+    @ModifyExpressionValue(
+            method = "runGameLoop",
+            at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;isCloseRequested()Z", remap = false))
+    private boolean dreamcraft$confirmGameShutdown(boolean isCloseRequested) {
+        if (!DreamCoreMod.showConfirmExitWindow) {
+            return isCloseRequested;
         }
-        if (!this.dreamcraft$waitingDialogQuit) {
-            this.dreamcraft$waitingDialogQuit = true;
+        if (this.dreamcraft$isCloseRequested) {
+            return true;
+        }
+        if (dreamcraft$waitingDialogQuit) return false;
+        if (isCloseRequested) {
+            dreamcraft$waitingDialogQuit = true;
             new Thread(() -> {
                 final JFrame frame = new JFrame();
                 frame.setAlwaysOnTop(true);
@@ -59,11 +60,12 @@ public abstract class MixinMinecraft_ConfirmExit {
                         imageIcon);
                 if (result == JOptionPane.YES_OPTION) {
                     this.dreamcraft$isCloseRequested = true;
-                    this.shutdown();
                 }
-                this.dreamcraft$waitingDialogQuit = false;
+                dreamcraft$waitingDialogQuit = false;
             }).start();
+            return false;
         }
-        ci.cancel();
+        return false;
     }
+
 }

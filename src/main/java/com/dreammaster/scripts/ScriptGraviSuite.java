@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.dreammaster.gthandler.CustomItemList;
-import com.dreammaster.item.NHItemList;
 
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
@@ -154,7 +153,7 @@ public class ScriptGraviSuite implements IScriptLoader {
         addShapedRecipe(
                 createItemStack(GraviSuite.ID, "advDDrill", 1, 27, "{toolXP:0.0d,charge:0,toolMode:0}", missing),
                 "screwIridium",
-                NHItemList.ReinforcedIridiumDrillTip.getIS(1),
+                com.dreammaster.item.ItemList.ReinforcedIridiumDrillTip.getIS(1),
                 "craftingToolScrewdriver",
                 "gearGtSmallIridium",
                 ItemList.Electric_Motor_EV.get(1L),

@@ -6,8 +6,6 @@ import static gregtech.api.util.GTModHandler.getModItem;
 import java.util.Collections;
 import java.util.List;
 
-import com.dreammaster.item.NHItemList;
-
 public class ScriptForgeMultipart implements IScriptLoader {
 
     @Override
@@ -28,7 +26,7 @@ public class ScriptForgeMultipart implements IScriptLoader {
                 "stickStone",
                 "stickStone",
                 "stickWood",
-                NHItemList.SawBladeStone.getIS(1),
+                com.dreammaster.item.ItemList.SawBladeStone.getIS(1),
                 "stickStone",
                 null,
                 null,
@@ -52,7 +50,7 @@ public class ScriptForgeMultipart implements IScriptLoader {
                 "stickSteel",
                 "stickSteel",
                 "stickWood",
-                NHItemList.SawBladeDiamond.getIS(1),
+                com.dreammaster.item.ItemList.SawBladeDiamond.getIS(1),
                 "stickSteel",
                 null,
                 null,
