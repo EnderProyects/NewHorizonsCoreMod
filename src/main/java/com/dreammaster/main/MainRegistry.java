@@ -25,6 +25,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
+import com.dreammaster.NHTradeHandler.NHTradeHandler;
 import com.dreammaster.TwilightForest.TF_Loot_Chests;
 import com.dreammaster.amazingtrophies.AchievementHandler;
 import com.dreammaster.bartworksHandler.BWGlassAdder;
@@ -46,15 +47,12 @@ import com.dreammaster.config.CoreModConfig;
 import com.dreammaster.creativetab.ModTabList;
 import com.dreammaster.detrav.ScannerTools;
 import com.dreammaster.fluids.FluidList;
-import com.dreammaster.gthandler.CoreMod_PCBFactory_MaterialLoader;
-import com.dreammaster.gthandler.GT_CoreModSupport;
 import com.dreammaster.gthandler.GT_CustomLoader;
-import com.dreammaster.gthandler.GT_Loader_CasingNH;
 import com.dreammaster.gthandler.GT_Loader_ItemPipes;
 import com.dreammaster.gthandler.recipes.DTPFRecipes;
 import com.dreammaster.item.CustomPatterns;
 import com.dreammaster.item.ItemBucketList;
-import com.dreammaster.item.ItemList;
+import com.dreammaster.item.NHItemList;
 import com.dreammaster.item.WoodenBrickForm;
 import com.dreammaster.lib.Refstrings;
 import com.dreammaster.loginhandler.LoginHandler;
@@ -77,6 +75,7 @@ import com.dreammaster.railcraftStones.NH_QuarryPopulator;
 import com.dreammaster.recipes.RecipeRemover;
 import com.dreammaster.scripts.ScriptLoader;
 import com.dreammaster.thaumcraft.TCLoader;
+import com.dreammaster.tinkersConstruct.SmelteryFluidTypes;
 import com.dreammaster.tinkersConstruct.TiCoLoader;
 import com.dreammaster.witchery.WitcheryPlugin;
 
@@ -92,6 +91,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import eu.usrv.yamcore.YAMCore;
 import eu.usrv.yamcore.auxiliary.IngameErrorLog;
@@ -101,7 +101,6 @@ import eu.usrv.yamcore.client.NotificationTickHandler;
 import eu.usrv.yamcore.creativetabs.CreativeTabsManager;
 import eu.usrv.yamcore.fluids.ModFluidManager;
 import eu.usrv.yamcore.items.ModItemManager;
-import gregtech.GTMod;
 import gregtech.api.GregTechAPI;
 import gregtech.api.enums.GTValues;
 import gregtech.api.enums.Materials;
@@ -216,14 +215,9 @@ public class MainRegistry {
         ModTabList.InitModTabs(TabManager, ItemManager);
         // ------------------------------------------------------------
 
-        // Materials init
-        if (!GTMod.gregtechproxy.mEnableAllMaterials) {
-            new GT_CoreModSupport();
-        }
-
         // ------------------------------------------------------------
         Logger.debug("PRELOAD Create Items");
-        if (!ItemList.AddToItemManager(ItemManager)
+        if (!NHItemList.AddToItemManager(ItemManager)
                 | !(!TinkerConstruct.isModLoaded() || CustomPatterns.RegisterPatterns(TabManager))
                 | !(BioItemLoader.preInit())) {
             Logger.warn("Some items failed to register. Check the logfile for details");
@@ -318,6 +312,11 @@ public class MainRegistry {
         Logger.warn("==================================================");
 
         MinecraftForge.EVENT_BUS.register(new OvenGlove.EventHandler());
+
+        if (TinkerConstruct.isModLoaded()) {
+            TiCoLoader.doPreInitialization();
+            GregTechAPI.sAfterGTPreload.add(SmelteryFluidTypes::registerGregtechFluidTypes);
+        }
     }
 
     private static boolean RegisterNonEnumItems() {
@@ -366,14 +365,17 @@ public class MainRegistry {
             TF_Loot_Chests.init();
         }
 
-        CoreMod_PCBFactory_MaterialLoader.init();
-
         BWGlassAdder.registerGlasses();
 
         if (CoreConfig.gtnhPauseMenuButtons && event.getSide().isClient()) {
             MinecraftForge.EVENT_BUS.register(new GTNHPauseScreen());
         }
 
+        VillagerRegistry.instance().registerVillageTradeHandler(2, new NHTradeHandler());
+
+        if (TinkerConstruct.isModLoaded()) {
+            TiCoLoader.doInitialization();
+        }
     }
 
     public static Block _mBlockBabyChest = new BlockBabyChest();
@@ -390,7 +392,6 @@ public class MainRegistry {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
         proxy.registerRenderInfo();
-        GT_Loader_CasingNH.load();
     }
 
     private void RegisterModuleEvents() {

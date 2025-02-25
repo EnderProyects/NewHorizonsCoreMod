@@ -4,6 +4,7 @@ import static com.dreammaster.main.MainRegistry.Module_CustomFuels;
 import static gregtech.api.enums.Mods.Backpack;
 import static gregtech.api.enums.Mods.BiomesOPlenty;
 import static gregtech.api.enums.Mods.BloodArsenal;
+import static gregtech.api.enums.Mods.Botania;
 import static gregtech.api.enums.Mods.CarpentersBlocks;
 import static gregtech.api.enums.Mods.ExtraTrees;
 import static gregtech.api.enums.Mods.ExtraUtilities;
@@ -29,7 +30,6 @@ import static gregtech.api.enums.Mods.TwilightForest;
 import static gregtech.api.enums.Mods.Witchery;
 import static gregtech.api.recipe.RecipeMaps.alloySmelterRecipes;
 import static gregtech.api.recipe.RecipeMaps.assemblerRecipes;
-import static gregtech.api.recipe.RecipeMaps.blastFurnaceRecipes;
 import static gregtech.api.recipe.RecipeMaps.cutterRecipes;
 import static gregtech.api.recipe.RecipeMaps.extractorRecipes;
 import static gregtech.api.recipe.RecipeMaps.fluidExtractionRecipes;
@@ -43,6 +43,7 @@ import static net.minecraftforge.fluids.FluidRegistry.getFluidStack;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 import com.dreammaster.gthandler.CustomItemList;
@@ -2162,23 +2163,30 @@ public class ScriptMinecraft implements IScriptLoader {
                 .addTo(assemblerRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
+                        new ItemStack(Blocks.dirt, 16),
+                        getModItem(Botania.ID, "grassSeeds", 1, 0, missing),
+                        GTUtility.getIntegratedCircuit(1))
+                .itemOutputs(new ItemStack(Blocks.grass, 16)).duration(5 * SECONDS).eut(24).addTo(assemblerRecipes);
+        GTValues.RA.stdBuilder()
+                .itemInputs(
+                        new ItemStack(Blocks.dirt, 16),
+                        getModItem(Botania.ID, "grassSeeds", 1, 1, missing),
+                        GTUtility.getIntegratedCircuit(1))
+                .itemOutputs(new ItemStack(Blocks.dirt, 16, 2)).duration(5 * SECONDS).eut(24).addTo(assemblerRecipes);
+        GTValues.RA.stdBuilder()
+                .itemInputs(
+                        new ItemStack(Blocks.dirt, 16),
+                        getModItem(Botania.ID, "grassSeeds", 1, 2, missing),
+                        GTUtility.getIntegratedCircuit(1))
+                .itemOutputs(new ItemStack(Blocks.mycelium, 16)).duration(5 * SECONDS).eut(24).addTo(assemblerRecipes);
+
+        GTValues.RA.stdBuilder()
+                .itemInputs(
                         CustomItemList.ArtificialLeather.get(4L),
                         GTOreDictUnificator.get(OrePrefixes.ring, Materials.Iron, 2L),
                         GTUtility.getIntegratedCircuit(1))
                 .itemOutputs(getModItem(Minecraft.ID, "saddle", 1, 0, missing)).duration(5 * SECONDS).eut(24)
                 .addTo(assemblerRecipes);
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        getModItem(TinkerConstruct.ID, "GlassBlock", 1, 0, missing),
-                        GTUtility.getIntegratedCircuit(1))
-                .itemOutputs(getModItem(Minecraft.ID, "glass", 1, 0, missing)).duration(5 * SECONDS)
-                .eut(TierEU.RECIPE_MV).specialValue(1000).addTo(blastFurnaceRecipes);
-        GTValues.RA.stdBuilder()
-                .itemInputs(
-                        getModItem(TinkerConstruct.ID, "GlassPane", 1, 0, missing),
-                        GTUtility.getIntegratedCircuit(1))
-                .itemOutputs(getModItem(Minecraft.ID, "glass_pane", 1, 0, missing)).duration(5 * SECONDS)
-                .eut(TierEU.RECIPE_MV).specialValue(1000).addTo(blastFurnaceRecipes);
         GTValues.RA.stdBuilder().itemInputs(getModItem(Minecraft.ID, "wooden_pressure_plate", 1, 0, missing))
                 .itemOutputs(getModItem(Minecraft.ID, "wooden_button", 2, 0, missing))
                 .fluidInputs(Materials.Water.getFluid(4)).duration(2 * SECONDS + 10 * TICKS).eut(4)
@@ -4291,17 +4299,6 @@ public class ScriptMinecraft implements IScriptLoader {
                 null,
                 "craftingToolScrewdriver",
                 null);
-        addShapedRecipe(
-                getModItem(Minecraft.ID, "map", 1, 0, missing),
-                "paperEmpty",
-                "paperEmpty",
-                "paperEmpty",
-                "paperEmpty",
-                getModItem(Minecraft.ID, "compass", 1, 0, missing),
-                "paperEmpty",
-                "paperEmpty",
-                "paperEmpty",
-                "paperEmpty");
         addShapelessRecipe(
                 getModItem(Minecraft.ID, "dye", 3, 15, missing),
                 getModItem(Minecraft.ID, "bone", 1, 0, missing),

@@ -39,6 +39,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.dreammaster.gthandler.CustomItemList;
+import com.dreammaster.item.NHItemList;
 import com.dreammaster.oredict.OreDictHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -50,7 +51,7 @@ import gregtech.api.enums.OrePrefixes;
 import gregtech.api.objects.ItemData;
 import gregtech.api.util.GTOreDictUnificator;
 import gregtech.api.util.GTUtility;
-import gtPlusPlus.xmod.ic2.item.IC2Items;
+import gtPlusPlus.xmod.gregtech.api.enums.GregtechItemList;
 
 public class ScriptIndustrialCraft implements IScriptLoader {
 
@@ -189,7 +190,7 @@ public class ScriptIndustrialCraft implements IScriptLoader {
         addShapedRecipe(
                 getModItem(IndustrialCraft2.ID, "itemToolMiningLaser", 1, 0, missing),
                 "plateTitanium",
-                com.dreammaster.item.ItemList.LaserEmitter.getIS(1),
+                NHItemList.LaserEmitter.getIS(1),
                 "plateTitanium",
                 "circuitMaster",
                 ItemList.Battery_RE_MV_Cadmium.get(1L),
@@ -312,7 +313,7 @@ public class ScriptIndustrialCraft implements IScriptLoader {
                 getModItem(IndustrialCraft2.ID, "itemPartCarbonPlate", 1, 0, missing));
         addShapedRecipe(
                 getModItem(IndustrialCraft2.ID, "itemwcarbonrotor", 1, 1, missing),
-                new ItemStack(IC2Items.shaft_Material_2.getItem(), 1, 0),
+                GregtechItemList.TungstenSteelShaft.get(1),
                 getModItem(IndustrialCraft2.ID, "itemRecipePart", 1, 9, missing),
                 "craftingToolHardHammer",
                 getModItem(IndustrialCraft2.ID, "itemRecipePart", 1, 9, missing),
@@ -320,7 +321,7 @@ public class ScriptIndustrialCraft implements IScriptLoader {
                 getModItem(IndustrialCraft2.ID, "itemRecipePart", 1, 9, missing),
                 "craftingToolWrench",
                 getModItem(IndustrialCraft2.ID, "itemRecipePart", 1, 9, missing),
-                new ItemStack(IC2Items.shaft_Material_2.getItem(), 1, 0));
+                GregtechItemList.TungstenSteelShaft.get(1));
         addShapedRecipe(
                 getModItem(IndustrialCraft2.ID, "blockKineticGenerator", 1, 5, missing),
                 ItemList.Electric_Motor_MV.get(1L),
@@ -551,7 +552,7 @@ public class ScriptIndustrialCraft implements IScriptLoader {
                 "plateSteel",
                 "screwSteel",
                 "craftingToolWrench",
-                com.dreammaster.item.ItemList.ElectricBoatHull.getIS(1),
+                NHItemList.ElectricBoatHull.getIS(1),
                 "craftingToolScrewdriver",
                 ItemList.Rotor_LV.get(1L),
                 ItemList.Electric_Motor_LV.get(1L),
@@ -709,28 +710,6 @@ public class ScriptIndustrialCraft implements IScriptLoader {
                 "batteryAdvanced",
                 "itemCasingAnyIron");
         addShapedRecipe(
-                getModItem(IndustrialCraft2.ID, "itemScanner", 1, 0, missing),
-                "itemCasingGold",
-                "plateStainlessSteel",
-                "itemCasingGold",
-                "circuitAdvanced",
-                CustomItemList.Display.get(1L),
-                "circuitAdvanced",
-                "cableGt01Gold",
-                "batteryAdvanced",
-                "cableGt01Gold");
-        addShapedRecipe(
-                getModItem(IndustrialCraft2.ID, "itemScannerAdv", 1, 0, missing),
-                "itemCasingTitanium",
-                getModItem(IndustrialCraft2.ID, "itemScanner", 1, wildcard, missing),
-                "itemCasingTitanium",
-                "circuitData",
-                CustomItemList.Display.get(1L),
-                "circuitData",
-                "cableGt01Nichrome",
-                "batteryData",
-                "cableGt01Nichrome");
-        addShapedRecipe(
                 getModItem(IndustrialCraft2.ID, "itemRecipePart", 1, 3, missing),
                 "cableGt01AnyCopper",
                 "itemCasingSteel",
@@ -874,17 +853,6 @@ public class ScriptIndustrialCraft implements IScriptLoader {
                 "circuitBasic",
                 "itemCasingSteel");
         addShapedRecipe(
-                getModItem(IndustrialCraft2.ID, "blockMachine2", 1, 11, missing),
-                "circuitElite",
-                getModItem(IndustrialCraft2.ID, "blockElectric", 1, 2, missing),
-                "circuitElite",
-                ItemList.Electric_Motor_IV.get(1L),
-                getModItem(IndustrialCraft2.ID, "blockMachine", 1, 12, missing),
-                ItemList.Electric_Motor_IV.get(1L),
-                ItemList.Robot_Arm_IV.get(1L),
-                getModItem(IndustrialCraft2.ID, "blockMachine2", 1, 0, missing),
-                ItemList.Robot_Arm_IV.get(1L));
-        addShapedRecipe(
                 getModItem(IndustrialCraft2.ID, "blockMachine2", 1, 1, missing),
                 getModItem(IndustrialCraft2.ID, "itemRecipePart", 1, 0, missing),
                 getModItem(IndustrialCraft2.ID, "itemRecipePart", 1, 0, missing),
@@ -1009,14 +977,6 @@ public class ScriptIndustrialCraft implements IScriptLoader {
                 null,
                 null,
                 "ingotIridium",
-                null,
-                null);
-        addShapedRecipe(
-                GTOreDictUnificator.get(OrePrefixes.plate, Materials.Iridium, 1L),
-                "craftingToolHardHammer",
-                null,
-                null,
-                GTOreDictUnificator.get(OrePrefixes.ingotDouble, Materials.Iridium, 1L),
                 null,
                 null);
 
@@ -1651,33 +1611,32 @@ public class ScriptIndustrialCraft implements IScriptLoader {
                         GTUtility.getIntegratedCircuit(3))
                 .itemOutputs(getModItem(IndustrialCraft2.ID, "itemRecipePart", 1, 5, missing)).duration(30 * SECONDS)
                 .eut(30).addTo(assemblerRecipes);
-        GTValues.RA.stdBuilder().itemInputs(com.dreammaster.item.ItemList.BioChunk.getIS(1))
+        GTValues.RA.stdBuilder().itemInputs(NHItemList.BioChunk.getIS(1))
                 .itemOutputs(getModItem(IndustrialCraft2.ID, "itemPartCoalChunk", 1, 0, missing)).duration(1 * MINUTES)
                 .eut(120).specialValue(1000).addTo(blastFurnaceRecipes);
-        GTValues.RA.stdBuilder().itemInputs(com.dreammaster.item.ItemList.BioOrganicMesh.getIS(1))
+        GTValues.RA.stdBuilder().itemInputs(NHItemList.BioOrganicMesh.getIS(1))
                 .itemOutputs(getModItem(IndustrialCraft2.ID, "itemPartCarbonMesh", 1, 0, missing))
                 .duration(30 * SECONDS).eut(120).specialValue(1000).addTo(blastFurnaceRecipes);
-        GTValues.RA.stdBuilder().itemInputs(com.dreammaster.item.ItemList.BioCarbonPlate.getIS(1))
+        GTValues.RA.stdBuilder().itemInputs(NHItemList.BioCarbonPlate.getIS(1))
                 .itemOutputs(getModItem(IndustrialCraft2.ID, "itemPartCarbonPlate", 1, 0, missing))
                 .duration(30 * SECONDS).eut(120).specialValue(1000).addTo(blastFurnaceRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
                         getModItem(IndustrialCraft2.ID, "itemPartCarbonMesh", 8, 0, missing),
-                        com.dreammaster.item.ItemList.ExtruderShapeBoat.getIS(0))
+                        NHItemList.ExtruderShapeBoat.getIS(0))
                 .itemOutputs(getModItem(IndustrialCraft2.ID, "itemBoat", 1, 0, missing)).duration(30 * SECONDS).eut(30)
                 .addTo(extruderRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
                         GTOreDictUnificator.get(OrePrefixes.ingot, Materials.Rubber, 4L),
-                        com.dreammaster.item.ItemList.ExtruderShapeBoat.getIS(0))
+                        NHItemList.ExtruderShapeBoat.getIS(0))
                 .itemOutputs(getModItem(IndustrialCraft2.ID, "itemBoat", 1, 1, missing)).duration(10 * SECONDS).eut(16)
                 .addTo(extruderRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
                         getModItem(Minecraft.ID, "iron_ingot", 8, 0, missing),
-                        com.dreammaster.item.ItemList.ExtruderShapeBoat.getIS(0))
-                .itemOutputs(com.dreammaster.item.ItemList.ElectricBoatHull.getIS(1)).duration(1 * MINUTES).eut(30)
-                .addTo(extruderRecipes);
+                        NHItemList.ExtruderShapeBoat.getIS(0))
+                .itemOutputs(NHItemList.ElectricBoatHull.getIS(1)).duration(1 * MINUTES).eut(30).addTo(extruderRecipes);
         GTValues.RA.stdBuilder()
                 .itemInputs(
                         GTOreDictUnificator.get(OrePrefixes.pipeTiny, Materials.Steel, 1L),
